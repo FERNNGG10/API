@@ -37,6 +37,6 @@ Route::get('/greeting', function () {
     return response()->json(['Hello World'],200);
 });
 
-Route::get('/route 2', function () {
+Route::get('/route2', function () {
     return response()->json(['ruta 2'],200);
 });
