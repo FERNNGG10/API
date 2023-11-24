@@ -13,6 +13,7 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
+    SetEnv JWT_SECRET 3kUrgN8LajFI3rHo2HoZXjMeEs5nBMad7ZBAo0n0FByRuuKBMgH0QdqWo5FPsmvF
 
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
