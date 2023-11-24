@@ -104,5 +104,6 @@ class AuthController extends Controller
             $user->email=$request->email;
             $user->password=Hash::make($request->password);
             $user->save();
+            return response()->json(["msg"=>"Se mando un mensaje a tu correo","data"=>$user],201);
     }
 }
