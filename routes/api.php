@@ -33,10 +33,10 @@ Route::group([
     Route::post('register',[AuthController::class,'register']);
 });
 
-Route::get('/greeting', function () {
+Route::get('greeting', function () {
     return 'Hello World';
 });
 
-Route::get('/route2', function () {
+Route::get('route2', function () {
     return 'ruta 2';
 });
