@@ -34,9 +34,9 @@ Route::group([
 });
 
 Route::get('/greeting', function () {
-    return response()->json(['Hello World'],200);
+    return 'Hello World';
 });
 
 Route::get('/route2', function () {
-    return response()->json(['ruta 2'],200);
+    return 'ruta 2';
 });
