@@ -35,7 +35,7 @@ Route::group([
 
 
 Route::get('/apitest', function () {
-    return 'prueba';
+    return response()->json(["hola"],200);
 });
 
 
