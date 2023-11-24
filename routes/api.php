@@ -36,3 +36,7 @@ Route::group([
 Route::get('/greeting', function () {
     return response()->json(['Hello World'],200);
 });
+
+Route::get('/greeting', function () {
+    return response()->json(['ruta 2'],200);
+});
