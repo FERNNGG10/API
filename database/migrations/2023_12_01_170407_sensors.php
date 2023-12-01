@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sensors',function(Blueprint $table){
-
             $table->id();
-            $table->string('sensor_name',50);
+            $table->string('name',30);
+            
         });
     }
 

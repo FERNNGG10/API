@@ -13,13 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('readings',function(Blueprint $table){
-            
+        Schema::create('alerts',function(Blueprint $table){
+
             $table->id();
-            $table->unsignedBigInteger('plant_sensor_id')->onDelete('cascade')->onUpdate('cascade');
-            $table->float('value');
-            $table->dateTimeTz('created_at');
-            $table->foreign('plant_sensor_id')->references('id')->on('plant_sensors')->onDelete('cascade');
+            $table->foreignId('user_id')->
+            constrained('users')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+            $table->text('message') ;
+            
+
+            
         });
     }
 
@@ -30,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('readings');
+        Schema::dropIfExists('alerts');
     }
 };

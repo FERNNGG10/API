@@ -13,12 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('alerts',function(Blueprint $table){
+        Schema::create('sensor_plants',function(Blueprint $table){
 
             $table->id();
-            $table->unsignedBigInteger('user_id')->onDelete('cascade')->onUpdate('cascade');
-            $table->text('message');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('plant_id')
+            ->constrained('plants')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+
+            $table->foreignId('sensor_id')
+            ->constrained('sensors')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
         });
     }
 
@@ -29,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('alerts');
+        Schema::dropIfExists('sensor_plants');
     }
 };

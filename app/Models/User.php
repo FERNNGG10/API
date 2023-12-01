@@ -1,17 +1,19 @@
 <?php
 
 namespace App\Models;
-use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use App\Models\Plant;
-//protected $table='users';
+use GuzzleHttp\Psr7\Request;
+use App\Models\Alert;
+
 class User extends Authenticatable implements JWTSubject
 {
-    protected $table = 'users';
+    protected $table='users';
     use Notifiable;
 
     // Rest omitted for brevity
@@ -37,7 +39,12 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function plant(){
-
         return $this->hasMany(Plant::class,'user_id');
     }
+
+    public function alerts(){
+        return $this->hasMany(Alert::class,'user_id');
+    }
+
+
 }

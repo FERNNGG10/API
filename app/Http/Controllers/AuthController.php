@@ -2,28 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ValidatorEmail;
 use App\Models\User;
-use GuzzleHttp\Psr7\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
+
+
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
+     /**
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('auth:api', ['except' => ['login','register','activate']]);
     }
 
     /**
-     * Get a JWT via given credentials.
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function login()
@@ -38,8 +37,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the authenticated User.
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function me()
@@ -48,8 +45,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Log the user out (Invalidate the token).
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout()
@@ -60,8 +55,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Refresh a token.
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function refresh()
@@ -70,8 +63,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the token array structure.
-     *
      * @param  string $token
      *
      * @return \Illuminate\Http\JsonResponse
@@ -81,29 +72,51 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL()*24*30 //minutos entre 60min entre 24 horas ej: 43200/60/24
         ]);
     }
 
-    public function register(Request $request){
+    public function register (Request $request){
 
+        //validacion de datos
         $validate = Validator::make(
             $request->all(),[
-                    "name"  =>  "required|max:30",
-                    "email" =>  "required|email|unique:users",
-                    "password"  =>  "required|min:8|string"
+                "name"  =>  "required|max:30",
+                "email" =>  "required|unique:users|email",
+                "password"  =>  "required|min:8|string|confirmed"
+            ],  [
+                "name.required" => "El nombre es obligatorio.",
+                "name.max" => "El nombre no puede tener más de :max caracteres.",
+                "email.required" => "El correo electrónico es obligatorio.",
+                "email.unique" => "Este correo electrónico ya está registrado.",
+                "email.email" => "Por favor, introduce un correo electrónico válido.",
+                "password.required" => "La contraseña es obligatoria.",
+                "password.min" => "La contraseña debe tener al menos :min caracteres.",
+                "password.string" => "La contraseña debe ser una cadena de caracteres.",
+                'password.required' => 'La contraseña es obligatoria.'
             ]
             );
-
             if($validate->fails()){
-                return response()->json(["msg"=>"Datos incorrectos","data"=>$validate->errors()],422);
+                return response()->json(["msg"=>"Error en datos","data"=>$validate->errors()],422);
             }
-
+            //creacion de usuario
             $user = new User();
-            $user->name=$request->name;
-            $user->email=$request->email;
-            $user->password=Hash::make($request->password);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
             $user->save();
+            //ruta signada o temporal para activacion de cuenta
+            $signed_route = URL::temporarySignedRoute(
+                'activate',
+                now()->addMinutes(15),
+                ['user' =>  $user->id]
+            );
+            Mail::to($request->email)->send(new ValidatorEmail($signed_route));
             return response()->json(["msg"=>"Se mando un mensaje a tu correo","data"=>$user],201);
+    }
+
+    public function activate (User $user){
+        $user->is_active=true;
+        $user->save();
     }
 }

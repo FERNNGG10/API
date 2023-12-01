@@ -15,6 +15,14 @@
     RewriteRule ^ %1 [L,R=301]
     SetEnv JWT_SECRET 3kUrgN8LajFI3rHo2HoZXjMeEs5nBMad7ZBAo0n0FByRuuKBMgH0QdqWo5FPsmvF
 
+    SetEnv MAIL_MAILER smtp
+    SetEnv MAIL_HOST smtp.gmail.com
+    SetEnv MAIL_PORT 587
+    SetEnv MAIL_USERNAME vafjcompany@gmail.com
+    SetEnv MAIL_PASSWORD crranbubiwvjjfpb
+    SetEnv MAIL_ENCRYPTION tls
+    SetEnv MAIL_FROM_ADDRESS vafjcompany@gmail.com
+    SetEnv MAIL_FROM_NAME "Vafjcompany"
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f

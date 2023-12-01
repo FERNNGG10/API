@@ -6,15 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Sensor;
-class Plant extends Model
-{
-    use HasFactory;
-    protected $table='plants';
 
-    public function users(){
+class Plant extends Model
+{ 
+    protected $table ='plants';
+    use HasFactory;
+   
+    public function user(){
         return $this->belongsTo(User::class,'user_id');
     }
-    public function sensor(){
-        return $this->belongsToMany(Sensor::class,'plant_sensor');
+
+    public function sensors(){
+        return $this->belongsToMany(Sensors::class,'sensor_plants');
     }
 }
