@@ -39,3 +39,12 @@ Route::get('/apitest', function () {
 });
 
 
+Route::prefix('group')->group(function () {
+    Route::get('/all/group', [SecondController::class, 'AllGroup']);
+    Route::post('/one/group', [SecondController::class, 'GroupFeed']);
+    Route::post('/last/data', [SecondController::class, 'LastData']);
+    Route::post('/create/group', [SecondController::class, 'CreateGroup']);
+    Route::post('/create/group/feed', [SecondController::class, 'CreateFeed']);
+});
+
+
