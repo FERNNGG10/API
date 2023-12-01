@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Nette\Utils\Json;
+use App\Http\Controllers\SecondController;
+
 
 /*
 |--------------------------------------------------------------------------
