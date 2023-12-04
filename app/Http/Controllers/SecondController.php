@@ -8,14 +8,13 @@ use GuzzleHttp\Exception\RequestException;
 
 class SecondController extends Controller
 {
-    private const AIOKey = 'aio_gvDG40UfEiT2YNlvXKmS708D7aIe';
-    private const username = 'JorgeFullScout3';
+    const AIOKey = 'aio_lftY35KH7CreOQi7e8mB81MYVMmk';
 
     public function AllGroup(Request $request)
     {
         try {
             $client = new Client();
-            $response = $client->get('http://io.adafruit.com/api/v2/' . self::username . '/groups', [
+            $response = $client->get('http://io.adafruit.com/api/v2/Arthur65/groups', [
                 'headers' => [
                     'X-AIO-Key' => self::AIOKey,
                 ],
@@ -49,7 +48,7 @@ class SecondController extends Controller
         try {
             $Key = $request->input('GroupKey');
             $client = new Client();
-            $response = $client->get('http://io.adafruit.com/api/v2/' . self::username . '/groups/'. $Key, [
+            $response = $client->get('http://io.adafruit.com/api/v2/Arthur65/groups/'. $Key, [
                 'headers' => [
                     'X-AIO-Key' => self::AIOKey,
                 ],
@@ -81,7 +80,7 @@ class SecondController extends Controller
         try {
             $Key = $request->input('FeedKey');
             $client = new Client();
-            $response = $client->get('http://io.adafruit.com/api/v2/' . self::username . '/feeds/' . $Key . '/data/last', [
+            $response = $client->get('http://io.adafruit.com/api/v2/Arthur65/feeds/' . $Key . '/data/last', [
                 'headers' => [
                     'X-AIO-Key' => self::AIOKey,
                 ],
@@ -113,17 +112,13 @@ class SecondController extends Controller
 
 
 
-
-
-
-
     public function CreateGroup(Request $request)
     {
         try {
             $name = $request->input('name');
             
             $client = new Client();
-            $response = $client->post('http://io.adafruit.com/api/v2/' . self::username . '/groups', [
+            $response = $client->post('http://io.adafruit.com/api/v2/Arthur65/groups', [
                 'headers' => [
                     'X-AIO-Key' => self::AIOKey,
                     'Content-Type' => 'application/json',
@@ -158,7 +153,7 @@ class SecondController extends Controller
             $name = $request->input('FeedName');
             
             $client = new Client();
-            $response = $client->post('http://io.adafruit.com/api/v2/' . self::username . '/groups/' . $group  . '/feeds', [
+            $response = $client->post('http://io.adafruit.com/api/v2/Arthur65/groups/' . $group  . '/feeds', [
                 'headers' => [
                     'X-AIO-Key' => self::AIOKey,
                     'Content-Type' => 'application/json',
