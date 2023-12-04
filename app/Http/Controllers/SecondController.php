@@ -8,8 +8,8 @@ use GuzzleHttp\Exception\RequestException;
 
 class SecondController extends Controller
 {
-    private const AIOKey = 'aio_gvDG40UfEiT2YNlvXKmS708D7aIe';
-    private const username = 'JorgeFullScout3';
+    private const AIOKey = 'aio_NGko40ADvFYplxlMUOeiQiWOdRPE';
+    private const username = 'Arthur65';
 
     public function AllGroup(Request $request)
     {
