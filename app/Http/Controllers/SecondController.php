@@ -8,15 +8,21 @@ use GuzzleHttp\Exception\RequestException;
 
 class SecondController extends Controller
 {
-    const AIOKey = 'aio_lftY35KH7CreOQi7e8mB81MYVMmk';
+    private $AIOKey;
+    private $username;
 
+    public function __construct()
+    {
+        $this->AIOKey = env('AIOKEY');
+        $this->username = env('AUSER');
+    }
     public function AllGroup(Request $request)
     {
         try {
             $client = new Client();
-            $response = $client->get('http://io.adafruit.com/api/v2/Arthur65/groups', [
+            $response = $client->get('http://io.adafruit.com/api/v2/' . $this->username . '/groups', [
                 'headers' => [
-                    'X-AIO-Key' => self::AIOKey,
+                    'X-AIO-Key' => $this->AIOKey,
                 ],
             ]);
             $data = json_decode($response->getBody(), true);
@@ -48,9 +54,9 @@ class SecondController extends Controller
         try {
             $Key = $request->input('GroupKey');
             $client = new Client();
-            $response = $client->get('http://io.adafruit.com/api/v2/Arthur65/groups/'. $Key, [
+            $response = $client->get('http://io.adafruit.com/api/v2/' . $this->username . '/groups/'. $Key, [
                 'headers' => [
-                    'X-AIO-Key' => self::AIOKey,
+                    'X-AIO-Key' => $this->AIOKey,
                 ],
             ]);
             $data = json_decode($response->getBody(), true);
@@ -80,9 +86,9 @@ class SecondController extends Controller
         try {
             $Key = $request->input('FeedKey');
             $client = new Client();
-            $response = $client->get('http://io.adafruit.com/api/v2/Arthur65/feeds/' . $Key . '/data/last', [
+            $response = $client->get('http://io.adafruit.com/api/v2/' . $this->username . '/feeds/' . $Key . '/data/last', [
                 'headers' => [
-                    'X-AIO-Key' => self::AIOKey,
+                    'X-AIO-Key' => $this->AIOKey,
                 ],
             ]);
             $data = json_decode($response->getBody(), true);
@@ -112,15 +118,19 @@ class SecondController extends Controller
 
 
 
+
+
+
+
     public function CreateGroup(Request $request)
     {
         try {
             $name = $request->input('name');
             
             $client = new Client();
-            $response = $client->post('http://io.adafruit.com/api/v2/Arthur65/groups', [
+            $response = $client->post('http://io.adafruit.com/api/v2/' . $this->username . '/groups', [
                 'headers' => [
-                    'X-AIO-Key' => self::AIOKey,
+                    'X-AIO-Key' => $this->AIOKey,
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [
@@ -153,9 +163,9 @@ class SecondController extends Controller
             $name = $request->input('FeedName');
             
             $client = new Client();
-            $response = $client->post('http://io.adafruit.com/api/v2/Arthur65/groups/' . $group  . '/feeds', [
+            $response = $client->post('http://io.adafruit.com/api/v2/' . $this->username . '/groups/' . $group  . '/feeds', [
                 'headers' => [
-                    'X-AIO-Key' => self::AIOKey,
+                    'X-AIO-Key' => $this->AIOKey,
                     'Content-Type' => 'application/json',
                 ],
                 'json' => [
