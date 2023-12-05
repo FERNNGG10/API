@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\DB;
+
 
 class SecondController extends Controller
 {
@@ -19,25 +21,13 @@ class SecondController extends Controller
     public function AllGroup(Request $request)
     {
         try {
-            $client = new Client();
-            $response = $client->get('http://io.adafruit.com/api/v2/' . $this->username . '/groups', [
-                'headers' => [
-                    'X-AIO-Key' => $this->AIOKey,
-                ],
-            ]);
-            $data = json_decode($response->getBody(), true);
+
+            $userid = Auth()->user()->id;
+            $groups = DB::table('plants')->select('name', 'groupkey')->where('user_id', $userid)->get();
 
             return response()->json([
                 'msg' => 'peticion satisfactoria',
-                'IDowner' => collect($data)->pluck('owner.id')->unique()->values()->all(),
-                'owner' => collect($data)->pluck('owner.username')->unique()->values()->all(),
-                'groups' => collect($data)->map(function ($item) {
-                    return [
-                        'idgroup' => $item['id'],
-                        'group' => $item['name'],
-                        'key' => $item['key']
-                    ];
-                })->all(),
+                'groups' => $groups
             ]);
             
         } catch (RequestException $error) {
@@ -138,10 +128,17 @@ class SecondController extends Controller
                 ],
             ]);
             $data = json_decode($response->getBody(), true);
+            $key = $data['key'];
+
+            $userid = Auth()->user()->id;
+            DB::table('plants')->insert([
+                'name' => $name,
+                'user_id' => $userid,
+                'groupkey' => $key,
+            ]);
     
             return response()->json([
                 'msg' => 'peticion satisfactoria',
-                'data' => $data,
             ]);
         } catch (RequestException $error) {
             $statusCode = $error->getResponse() ? $error->getResponse()->getStatusCode() : 500;
@@ -161,7 +158,6 @@ class SecondController extends Controller
         try {
             $group = $request->input('Group');
             $name = $request->input('FeedName');
-            
             $client = new Client();
             $response = $client->post('http://io.adafruit.com/api/v2/' . $this->username . '/groups/' . $group  . '/feeds', [
                 'headers' => [
@@ -173,10 +169,19 @@ class SecondController extends Controller
                 ],
             ]);
             $data = json_decode($response->getBody(), true);
+
+            DB::table('sensors')->insert([
+                'name' => $name
+            ]);
+            $idgroup = DB::table('plants')->where('groupkey', $group)->value('id');
+            $idfeed = DB::table('sensors')->where('name', $name)->value('id');
+            DB::table('sensor_plants')->insert([
+                'plant_id' => $idgroup,
+                'sensor_id' => $idfeed,
+            ]);
     
             return response()->json([
                 'msg' => 'peticion satisfactoria',
-                'data' => $data,
             ]);
         } catch (RequestException $error) {
             $statusCode = $error->getResponse() ? $error->getResponse()->getStatusCode() : 500;
