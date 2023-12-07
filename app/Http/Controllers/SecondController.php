@@ -22,7 +22,7 @@ class SecondController extends Controller
     {
         try {
 
-            $userid = Auth()->user()->id;
+            $userid = 8; //Auth()->user()->id;
             $groups = DB::table('plants')->select('name', 'groupkey')->where('user_id', $userid)->get();
 
             return response()->json([
@@ -98,6 +98,36 @@ class SecondController extends Controller
             ], 500);
         }
     }
+
+    public function SendData(Request $request)
+    {
+        try {
+            $Value = $request->input('Value');
+            $Key = $request->input('FeedKey');
+            $client = new Client();
+            $response = $client->post('https://io.adafruit.com/api/v2/' . $this->username . '/feeds/' . $Key . '/data', [
+                'headers' => [
+                    'X-AIO-Key' => $this->AIOKey,
+                    'Content-Type' => 'application/json; charset=utf-8',
+                ],
+                'json' => [
+                    'value' => $Value,
+                ],
+            ]);
+            $data = json_decode($response->getBody(), true);
+
+            return response()->json([
+                'msg' => 'peticion satisfactoria',
+                'data' => $data,
+            ]);
+        } catch (RequestException $error) {
+            return response()->json([
+                'msg' => 'Error en la petición',
+                'data' => $error->getResponse() ? json_decode($error->getResponse()->getBody(), true) : null,
+            ], 500);
+        }
+    }
+
 
 
 

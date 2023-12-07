@@ -48,6 +48,8 @@ Route::prefix('group')->group(function () {
     Route::post('/last/data', [SecondController::class, 'LastData']);
     Route::post('/create/group', [SecondController::class, 'CreateGroup']);
     Route::post('/create/group/feed', [SecondController::class, 'CreateFeed']);
+    Route::post('/send/data', [SecondController::class, 'SendData']);
+
 });
 
 
