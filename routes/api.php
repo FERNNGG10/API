@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Nette\Utils\Json;
 use App\Http\Controllers\SecondController;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +33,9 @@ Route::group([
     Route::post('refresh', [AuthController::class,'refresh']);
     Route::get('me', [AuthController::class,'me']);
     Route::post('register',[AuthController::class,'register']);
+    Route::post('resendemail',[AuthController::class,'resend_email']);
     Route::get('activate/{user}',[AuthController::class,'activate'])->name('activate')->middleware('signed');
+    
 });
 
 
