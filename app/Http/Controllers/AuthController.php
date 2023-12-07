@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\DB;
+
 
 
 class AuthController extends Controller
@@ -191,22 +191,38 @@ class AuthController extends Controller
     }
 
     public function change_password(Request $request){
+        
         $user_id = auth()->user()->id;
-            $validate = Validator::make(
-                $request->all(),[
-                    "password"  =>  "required|min:8|string|confirmed"
-                ],[
-                    "password.required" => "La contraseña es obligatoria.",
-                    "password.min" => "La contraseña debe tener al menos :min caracteres.",
-                    "password.string" => "La contraseña debe ser una cadena de caracteres.",
-                    'password.required' => 'La contraseña es obligatoria.'
+        $validate = Validator::make(
+            $request->all(),[
+                "password"  =>  "required|min:8|string|confirmed"
+            ],[
+                "password.required" => "La contraseña es obligatoria.",
+                "password.min" => "La contraseña debe tener al menos :min caracteres.",
+                "password.string" => "La contraseña debe ser una cadena de caracteres.",
+                'password.required' => 'La contraseña es obligatoria.'
                 ]
-                );
-                if($validate->fails()){
-                    return response()->json(["msg"=>"Error en datos","data"=>$validate->errors()],422);
-                }
-                $update = DB::table('users')->where('id',$user_id)->update(['password'=>$request->password]);
-                return response()->json(['msg'=>"Se cambio la contraseña correctamente","data"=>$update],200);
+            );
+
+        if($validate->fails()){
+            return response()->json([
+                "msg"   =>"Error en la validacion de datos",
+                "data"  =>$validate->errors()
+            ],422);
+        }
+        
+        $user = User::find($user_id);
+        if($user){
+            $user->password=Hash::make($request->password);
+            $user->save();
+            return response()->json(["msg"=>"Contraseña cambiada correctamente","data"=>$user],200);
+        }
+        return response()->json([
+            "msg"   =>"Usuario no encotrado"
+        ],404);
+        
+        
+
     }
 
 
