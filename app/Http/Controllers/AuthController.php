@@ -171,4 +171,24 @@ class AuthController extends Controller
         </body>
         </html>';
     }
+
+    public function resend_email(Request $request){
+        $request->all();
+        $user = User::where('email',$request->email)->first();
+        if($user){
+            $signed_route = URL::temporarySignedRoute(
+                'activate',
+                now()->addMinutes(15),
+                ['user' =>  $user->id]
+            );
+            Mail::to($request->email)->send(new ValidatorEmail($signed_route));
+            return response()->json(["msg"=>"Se reenvio un mensaje a tu correo","data"=>$user],201);
+        
+        }
+        else{
+            return response()->json(["msg"=>"No se encontro el correo","data"=>$user],404);
+        }
+    }
+
+
 }
