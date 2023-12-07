@@ -34,6 +34,7 @@ Route::group([
     Route::get('me', [AuthController::class,'me']);
     Route::post('register',[AuthController::class,'register']);
     Route::post('resendemail',[AuthController::class,'resend_email']);
+    Route::post('changepassword',[AuthController::class,'change_password']);
     Route::get('activate/{user}',[AuthController::class,'activate'])->name('activate')->middleware('signed');
     
 });
