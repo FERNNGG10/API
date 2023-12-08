@@ -39,6 +39,7 @@ class SecondController extends Controller
     }
 
 
+
     public function GroupFeed(Request $request)
     {
         try {
@@ -62,64 +63,6 @@ class SecondController extends Controller
                 })->all(),
             ]);
             
-        } catch (RequestException $error) {
-            return response()->json([
-                'msg' => 'Error en la petición',
-                'data' => $error->getResponse() ? json_decode($error->getResponse()->getBody(), true) : null,
-            ], 500);
-        }
-    }
-
-
-    public function LastData(Request $request)
-    {
-        try {
-            $Key = $request->input('FeedKey');
-            $client = new Client();
-            $response = $client->get('http://io.adafruit.com/api/v2/' . $this->username . '/feeds/' . $Key . '/data/last', [
-                'headers' => [
-                    'X-AIO-Key' => $this->AIOKey,
-                ],
-            ]);
-            $data = json_decode($response->getBody(), true);
-
-            return response()->json([
-                'msg' => 'peticion satisfactoria',
-                'data' => [
-                    'feed_id' => $data['feed_id'],
-                    'id' => $data['id'],
-                    'value' => $data['value'],
-                ],
-            ]);
-        } catch (RequestException $error) {
-            return response()->json([
-                'msg' => 'Error en la petición',
-                'data' => $error->getResponse() ? json_decode($error->getResponse()->getBody(), true) : null,
-            ], 500);
-        }
-    }
-
-    public function SendData(Request $request)
-    {
-        try {
-            $Value = $request->input('Value');
-            $Key = $request->input('FeedKey');
-            $client = new Client();
-            $response = $client->post('https://io.adafruit.com/api/v2/' . $this->username . '/feeds/' . $Key . '/data', [
-                'headers' => [
-                    'X-AIO-Key' => $this->AIOKey,
-                    'Content-Type' => 'application/json; charset=utf-8',
-                ],
-                'json' => [
-                    'value' => $Value,
-                ],
-            ]);
-            $data = json_decode($response->getBody(), true);
-
-            return response()->json([
-                'msg' => 'peticion satisfactoria',
-                'data' => $data,
-            ]);
         } catch (RequestException $error) {
             return response()->json([
                 'msg' => 'Error en la petición',
@@ -182,6 +125,36 @@ class SecondController extends Controller
     }
 
 
+    public function DeleteGroup(Request $request)
+    {
+        try {
+            $GroupKey = $request->input('GroupKey');
+            
+            $client = new Client();
+            $response = $client->delete('http://io.adafruit.com/api/v2/' . $this->username . '/groups/' . $GroupKey, [
+                'headers' => [
+                    'X-AIO-Key' => $this->AIOKey,
+                    'Content-Type' => 'application/json',
+                ],
+            ]);
+            
+            DB::table('plants')->where('groupkey', $GroupKey)->delete();
+    
+            return response()->json([
+                'msg' => 'peticion satisfactoria',
+            ]);
+        } catch (RequestException $error) {
+            $statusCode = $error->getResponse() ? $error->getResponse()->getStatusCode() : 500;
+            $responseData = $error->getResponse() ? json_decode($error->getResponse()->getBody(), true) : null;
+    
+            return response()->json([
+                'msg' => 'Error en la petición',
+                'data' => $responseData,
+            ], $statusCode);
+        }
+    }
+
+
 
         public function CreateFeed(Request $request)
     {
@@ -224,6 +197,34 @@ class SecondController extends Controller
         }
     }
 
+    public function LastData(Request $request)
+    {
+        try {
+            $Key = $request->input('FeedKey');
+            $client = new Client();
+            $response = $client->get('http://io.adafruit.com/api/v2/' . $this->username . '/feeds/' . $Key . '/data/last', [
+                'headers' => [
+                    'X-AIO-Key' => $this->AIOKey,
+                ],
+            ]);
+            $data = json_decode($response->getBody(), true);
+
+            return response()->json([
+                'msg' => 'peticion satisfactoria',
+                'data' => [
+                    'feed_id' => $data['feed_id'],
+                    'id' => $data['id'],
+                    'value' => $data['value'],
+                ],
+            ]);
+        } catch (RequestException $error) {
+            return response()->json([
+                'msg' => 'Error en la petición',
+                'data' => $error->getResponse() ? json_decode($error->getResponse()->getBody(), true) : null,
+            ], 500);
+        }
+    }
+
     public function prueba()
     {
         $response = Http::withHeaders([
@@ -250,6 +251,35 @@ class SecondController extends Controller
                 "msg"=>"Error en la peticion",
                 "data"=>$response->body()
             ],$response->status());
+        }
+    }
+
+    public function SendData(Request $request)
+    {
+        try {
+            $Value = $request->input('Value');
+            $Key = $request->input('FeedKey');
+            $client = new Client();
+            $response = $client->post('https://io.adafruit.com/api/v2/' . $this->username . '/feeds/' . $Key . '/data', [
+                'headers' => [
+                    'X-AIO-Key' => $this->AIOKey,
+                    'Content-Type' => 'application/json; charset=utf-8',
+                ],
+                'json' => [
+                    'value' => $Value,
+                ],
+            ]);
+            $data = json_decode($response->getBody(), true);
+
+            return response()->json([
+                'msg' => 'peticion satisfactoria',
+                'data' => $data,
+            ]);
+        } catch (RequestException $error) {
+            return response()->json([
+                'msg' => 'Error en la petición',
+                'data' => $error->getResponse() ? json_decode($error->getResponse()->getBody(), true) : null,
+            ], 500);
         }
     }
 
