@@ -227,7 +227,7 @@ class SecondController extends Controller
     public function prueba()
     {
         $response = Http::withHeaders([
-            'X-AIO-KEY'=>'aio_lWYJ1424uJhYzJf6ktHD5K64wESz'
+            'X-AIO-KEY'=>'aio_AUuC01KGIcDMpT0Itw3Pre8qY4RT'
         ])->get('http://io.adafruit.com/api/v2/Fernando_Goc10/feeds/led.prueba/data?limit=1');
 
         if($response->ok()){
