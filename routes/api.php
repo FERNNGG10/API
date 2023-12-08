@@ -37,6 +37,17 @@ Route::group([
     Route::post('changepassword',[AuthController::class,'change_password']);
     Route::get('activate/{user}',[AuthController::class,'activate'])->name('activate')->middleware('signed');
     
+    Route::prefix('group')->group(function () {
+   
+        Route::get('/all/group', [SecondController::class, 'AllGroup']);
+        Route::post('/one/group', [SecondController::class, 'GroupFeed']);
+        Route::post('/last/data', [SecondController::class, 'LastData']);
+        Route::post('/create/group', [SecondController::class, 'CreateGroup']);
+        Route::post('/create/group/feed', [SecondController::class, 'CreateFeed']);
+        Route::post('/send/data', [SecondController::class, 'SendData']);
+    });
+    
+   
 });
 
 
@@ -45,14 +56,5 @@ Route::get('/apitest', function () {
 });
 
 
-Route::prefix('group')->group(function () {
-    Route::get('/all/group', [SecondController::class, 'AllGroup']);
-    Route::post('/one/group', [SecondController::class, 'GroupFeed']);
-    Route::post('/last/data', [SecondController::class, 'LastData']);
-    Route::post('/create/group', [SecondController::class, 'CreateGroup']);
-    Route::post('/create/group/feed', [SecondController::class, 'CreateFeed']);
-    Route::post('/send/data', [SecondController::class, 'SendData']);
-
-});
 
 Route::post('prueba',[SecondController::class,'prueba']);
