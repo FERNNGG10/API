@@ -103,12 +103,21 @@ class SecondController extends Controller
             $data = json_decode($response->getBody(), true);
             $key = $data['key'];
 
-            $userid = Auth()->user()->id;
+            $userid = 3; //Auth()->user()->id;
             DB::table('plants')->insert([
                 'name' => $name,
                 'user_id' => $userid,
                 'groupkey' => $key,
             ]);
+
+            $idplant = DB::table('plants')->where('name', $name)->value('id');
+            $idsensors = DB::table('sensors')->pluck('id');
+
+            foreach( $idsensors as $id){
+                DB::table('sensor_plants')->insert([
+                    ['plant_id' => $idplant, 'sensor_id' => $id],
+                ]);
+            }
     
             return response()->json([
                 'msg' => 'peticion satisfactoria',
@@ -234,7 +243,7 @@ class SecondController extends Controller
             Por ejemplo para obtener datos de el feed humedad
             $response = Http::withHeaders([
             'X-AIO-KEY'=>$this->AIOKey
-             ])->get('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/humedad/data?limit=1',["value"=>"1"]);
+             ])->get('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/humedad/data?limit=1');
              if($response->ok()){
             return response()->json([
                 "msg"=>"si jala",
