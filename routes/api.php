@@ -45,6 +45,7 @@ Route::group([
         Route::post('/create/group', [SecondController::class, 'CreateGroup']);
         Route::post('/create/group/feed', [SecondController::class, 'CreateFeed']);
         Route::post('/send/data', [SecondController::class, 'SendData']);
+        Route::post('/delete/group', [SecondController::class, 'DeleteGroup']);
     });
     
    
