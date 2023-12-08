@@ -228,7 +228,7 @@ class SecondController extends Controller
     {
         $response = Http::withHeaders([
             'X-AIO-KEY'=>$this->AIOKey
-        ])->get('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/luz/data?limit=1');
+        ])->post('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/bomba/data?limit=1',["value"=>"0"]);
 
         if($response->ok()){
             return response()->json([
