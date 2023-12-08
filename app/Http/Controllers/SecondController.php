@@ -233,7 +233,7 @@ class SecondController extends Controller
         if($response->ok()){
             return response()->json([
                 "msg"=>"si jala",
-                "data"=>$response->json()->body()
+                "data"=>$response->json()
             ],200);
         }else{
             return response()->json([
