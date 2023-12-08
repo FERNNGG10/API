@@ -55,4 +55,4 @@ Route::prefix('group')->group(function () {
 
 });
 
-Route::get('prueba',[SecondController::class,'prueba']);
+Route::post('prueba',[SecondController::class,'prueba']);
