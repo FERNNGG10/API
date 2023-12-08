@@ -229,7 +229,17 @@ class SecondController extends Controller
         $response = Http::withHeaders([
             'X-AIO-KEY'=>$this->AIOKey
         ])->post('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/bomba/data?limit=1',["value"=>"1"]);
-
+            /*
+            Por ejemplo para obtener datos de el feed humedad
+            $response = Http::withHeaders([
+            'X-AIO-KEY'=>$this->AIOKey
+             ])->get('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/humedad/data?limit=1',["value"=>"1"]);
+             if($response->ok()){
+            return response()->json([
+                "msg"=>"si jala",
+                "data"=>$response->json()
+            ],200);
+             */
         if($response->ok()){
             return response()->json([
                 "msg"=>"si jala",
@@ -243,6 +253,6 @@ class SecondController extends Controller
         }
     }
 
-    
+
     
 }
