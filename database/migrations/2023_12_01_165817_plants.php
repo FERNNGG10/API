@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('plants',function(Blueprint $table){
             $table->id();
             $table->string('name',30);
+            $table->string('groupkey', 30);
             $table->foreignId('user_id')
             ->constrained('users')
             ->onUpdate('cascade')
