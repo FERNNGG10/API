@@ -15,10 +15,10 @@ class FeedSeeder extends Seeder
     public function run()
     {
        $array=[
-        ['name'=>'humedad'],
-        ['name'=>'lluvia'],
-        ['name'=>'suelo'],
-        ['name'=>'temperatura'],
+        ['name'=>'Humedad'],
+        ['name'=>'Lluvia'],
+        ['name'=>'Suelo'],
+        ['name'=>'Temperatura'],
         ['name'=>'agua'],
         ['name'=>'bomba'],
         ['name'=>'luz'],

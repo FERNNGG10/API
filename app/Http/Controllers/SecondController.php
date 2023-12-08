@@ -242,5 +242,7 @@ class SecondController extends Controller
             ],$response->status());
         }
     }
+
+    
     
 }
