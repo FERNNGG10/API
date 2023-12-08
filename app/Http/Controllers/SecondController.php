@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Http;
 
 class SecondController extends Controller
 {
@@ -221,6 +221,25 @@ class SecondController extends Controller
                 'msg' => 'Error en la petición',
                 'data' => $responseData,
             ], $statusCode);
+        }
+    }
+
+    public function prueba()
+    {
+        $response = Http::withHeaders([
+            'X-AIO-KEY'=>'aio_lWYJ1424uJhYzJf6ktHD5K64wESz'
+        ])->get('http://io.adafruit.com/api/v2/Fernando_Goc10/feeds/led.prueba/data?limit=1');
+
+        if($response->ok()){
+            return response()->json([
+                "msg"=>"si jala",
+                "data"=>$response->json('results')
+            ],200);
+        }else{
+            return response()->json([
+                "msg"=>"Error en la peticion",
+                "data"=>$response->body()
+            ],$response->status());
         }
     }
     
