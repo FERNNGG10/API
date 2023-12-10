@@ -18,11 +18,12 @@ class SecondController extends Controller
         $this->AIOKey = env('AIOKEY');
         $this->username = env('AUSER');
     }
+
     public function AllGroup(Request $request)
     {
         try {
 
-            $userid = 8; //Auth()->user()->id;
+            $userid = Auth()->user()->id;
             $groups = DB::table('plants')->select('name', 'groupkey')->where('user_id', $userid)->get();
 
             return response()->json([
