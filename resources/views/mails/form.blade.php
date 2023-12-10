@@ -12,22 +12,16 @@
     <div class="row align-items-start">
         <div class="col"></div>
         <div class="col border border-dark-subtle mt-5 bg-light">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
             <form class="" method="post" action="{{ route('resetpassword', ['email' => $email]) }}">
                 @csrf
                 <label for="exampleInputEmail1" class="form-label">Contraseña</label>
+
                 <input type="password" class="form-control " name="password" value="{{old('password')}}">
+
                 <div id="emailHelp" class="form-text">Nunca compartiremos su contraseña con nadie más.</div>
+
                 <button type="submit" class="btn btn-success" value="Enviar">Submit</button>
+
                 <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Confirmar Contraseña</label>
                         <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}">
