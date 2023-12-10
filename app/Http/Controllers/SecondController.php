@@ -314,9 +314,9 @@ class SecondController extends Controller
 
     public function RequestPlant(){
         $userid = Auth()->user()->id;
-        $plant = Plant::where('user_id',$userid);
+        $plant=DB::table('plants')->all();
         if($plant){
-            return response()->json(['msg'=>"Plantas",'data'=>$plant->json(),'user_id'=>$userid],200);
+            return response()->json(['msg'=>"Plantas",'data'=>$plant,'user_id'=>$userid],200);
         }
         return response()->json(['msg'=>"Plantas de usario no encontradas"],404);
     }
