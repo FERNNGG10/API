@@ -39,7 +39,7 @@ Route::group([
 
     Route::post('forgetpassword',[AuthController::class,'forget_password']);
     Route::get('forgetpassword/{email}',[AuthController::class,'forget'])->name('forget')->middleware('signed');
-    Route::put('resetpassword',[AuthController::class,'resetpassword']);
+    Route::post('resetpassword/{email}',[AuthController::class,'resetpassword']);
 
     Route::prefix('group')->group(function () {
    

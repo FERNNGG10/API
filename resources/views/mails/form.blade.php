@@ -13,11 +13,11 @@
             <div class="col">
             </div>
             <div class="col border border-dark-subtle mt-5 bg-light">
-                <form class ="" method="put" action="resetpassword">
+                <form class="" method="post" action="{{ route('resetpassword', ['email' => '$email']) }}">
                    @csrf
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" value="{{old('password')}}">
+                        <input type="password" class="form-control " name="password" value="{{old('password')}}">
                         @error('password')
                         <span class="invalid-feedback">
                             <strong>{{$message}}</strong>
