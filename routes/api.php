@@ -36,14 +36,13 @@ Route::group([
     Route::post('resendemail',[AuthController::class,'resend_email']);
     Route::put('changepassword',[AuthController::class,'change_password']);
     Route::get('activate/{user}',[AuthController::class,'activate'])->name('activate')->middleware('signed');
-
     Route::post('forgetpassword',[AuthController::class,'forget_password']);
     Route::get('forget/{email}',[AuthController::class,'forget'])->name('forget')->middleware('signed');
     Route::post('resetpassword/{email}', [AuthController::class, 'resetpassword'])->name('resetpassword');
 
     Route::prefix('group')->group(function () {
    
-        Route::get('/all/group', [SecondController::class, 'RequestData']);
+        Route::get('/all/group', [SecondController::class, 'RequestPlant']);
         Route::post('/one/group', [SecondController::class, 'GroupFeed']);
         Route::get('/last/data', [SecondController::class, 'LastData']);
         Route::post('/create/group', [SecondController::class, 'CreateGroup']);

@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-
+use App\Models\Plant;
 class SecondController extends Controller
 {
     private $AIOKey;
@@ -288,7 +288,7 @@ class SecondController extends Controller
     }
 
     public function RequestData(Request $request){
-        
+
         $array = DB::table('sensors')->get();
 
         foreach($array as $sensors)
@@ -310,6 +310,15 @@ class SecondController extends Controller
             ],$response->status());
         }
        
+    }
+
+    public function RequestPlant(){
+        $userid = Auth()->user()->id;
+        $plant = Plant::query()->where('user_id',$userid);
+        if($plant){
+            return response()->json(['msg'=>"Plantas",'data'=>$plant],200);
+        }
+        return response()->json(['msg'=>"Plantas de usario no encontradas"],404);
     }
 
 
