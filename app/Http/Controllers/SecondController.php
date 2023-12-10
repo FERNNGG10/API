@@ -293,9 +293,10 @@ class SecondController extends Controller
 
         foreach($array as $sensors)
         {
-            $response = Http::withHeaders([
+            $response = [Http::withHeaders([
                 'X-AIO-KEY' =>  $this->AIOKey
-            ])->get('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/'.$sensors->feedkey.'/data?limit=1');
+            ])->get('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/'.$sensors->feedkey.'/data?limit=1')
+            ];
         }
 
         if($response->ok()){
