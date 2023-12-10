@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ValidatorEmail;
+use App\Mail\ForgetPasswordMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register','activate','resend_email']]);
+        $this->middleware('auth:api', ['except' => ['login','register','activate','resend_email','forget_password','forget','resetpassword']]);
     }
 
     /**
@@ -221,8 +222,56 @@ class AuthController extends Controller
             "msg"   =>"Usuario no encotrado"
         ],404);
         
-        
+    }
+    //post
+    public function forget_password(Request $request){
+        $validate = Validator::make(
+            $request->all(),[
+                "email" =>  "required|email"
+            ],
+            [
+                "email.required" => "El correo electrónico es obligatorio.",
+                "email.email" => "Por favor, introduce un correo electrónico válido."
+            ]
+            );
 
+            if($validate->fails()){
+                return response()->json([
+                    "msg"   =>"Error en la validacion de datos",
+                    "data"  =>$validate->errors()
+                ],422);
+            }
+
+            $signed_route = URL::temporarySignedRoute(
+                'forget',
+                now()->addMinutes(15),
+                ['email' =>  $request->email]
+            );
+            Mail::to($request->email)->send(new ForgetPasswordMail($signed_route));
+            return response()->json(['msg'=>'Se envio un correo a '.$request->email]);
+    }
+    //get
+    public function forget(/*Request $request,*/$email){
+      
+        return view('mails.form',['email'=>$email]);
+    }
+    //put
+    public function resetpassword(Request $request, $email){
+        
+            $request->validate([
+            "password"  =>  "required|min:8|string|confirmed"
+            ],[
+            "password.required" => "La contraseña es obligatoria.",
+            "password.min" => "La contraseña debe tener al menos :min caracteres.",
+            "password.string" => "La contraseña debe ser una cadena de caracteres."
+            ]);
+
+            $user = User::where('email',$email)->first();
+            if($user){
+                $user->password=Hash::make($request->password);
+                $user->save();
+            }
+            return back()->with('succes','Contraseña cambiada correctamente');
     }
 
 
