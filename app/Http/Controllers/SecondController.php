@@ -103,7 +103,7 @@ class SecondController extends Controller
             $data = json_decode($response->getBody(), true);
             $key = $data['key'];
 
-            $userid = 3; //Auth()->user()->id;
+            $userid = Auth()->user()->id;
             DB::table('plants')->insert([
                 'name' => $name,
                 'user_id' => $userid,
