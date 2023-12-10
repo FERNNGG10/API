@@ -209,23 +209,30 @@ class SecondController extends Controller
     public function LastData(Request $request)
     {
         try {
-            $Key = $request->input('FeedKey');
-            $client = new Client();
-            $response = $client->get('http://io.adafruit.com/api/v2/' . $this->username . '/feeds/' . $Key . '/data/last', [
-                'headers' => [
-                    'X-AIO-Key' => $this->AIOKey,
-                ],
-            ]);
-            $data = json_decode($response->getBody(), true);
+
+            $feedskeys = DB::table('sensors')->pluck('feedkey');
+            $datalist = [];
+            
+            foreach($feedskeys as $key){
+                $client = new Client();
+                $response = $client->get('https://io.adafruit.com/api/v2/' . $this->username . '/feeds/' . $key . '/data/last', [
+                    'headers' => [
+                        'X-AIO-Key' => $this->AIOKey,
+                    ],
+                ]);
+                $data = json_decode($response->getBody(), true);
+
+                $datalist[] = [
+                    'feedkey' => $key,
+                    'value' => $data['value'],
+                ];
+            }
 
             return response()->json([
                 'msg' => 'peticion satisfactoria',
-                'data' => [
-                    'feed_id' => $data['feed_id'],
-                    'id' => $data['id'],
-                    'value' => $data['value'],
-                ],
+                'data' => $datalist
             ]);
+
         } catch (RequestException $error) {
             return response()->json([
                 'msg' => 'Error en la petición',

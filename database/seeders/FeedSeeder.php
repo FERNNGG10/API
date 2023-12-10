@@ -22,7 +22,17 @@ class FeedSeeder extends Seeder
         ['name'=>'agua'],
         ['name'=>'bomba'],
         ['name'=>'luz'],
-        ['name'=>'movimiento']
+        ['name'=>'movimiento'],
+
+        ['feedkey' => 'humedad'],
+        ['feedkey' => 'lluvia'],
+        ['feedkey' => 'suelo'],
+        ['feedkey' => 'temperatura'],
+        ['feedkey' => 'agua'],
+        ['feedkey' => 'bomba'],
+        ['feedkey' => 'luz'],
+        ['feedkey' => 'movimiento'],
+
        ];
 
        DB::table('sensors')->insert($array);

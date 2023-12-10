@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('sensors',function(Blueprint $table){
             $table->id();
             $table->string('name',30);
-            
+            $table->string('feedkey', 30);
         });
     }
 
