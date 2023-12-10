@@ -250,28 +250,28 @@ class AuthController extends Controller
             Mail::to($request->email)->send(new ForgetPasswordMail($signed_route));
             return response()->json(['msg'=>'Se envio un correo a '.$request->email]);
     }
+    
     //get
-    public function forget(/*Request $request,*/$email){
-      
-        return view('mails.form',['email'=>$email]);
+    public function forget($email){
+        return response()->view('mails.form', ['email' => $email]);
     }
+
     //put
     public function resetpassword(Request $request, $email){
-        
-            $request->validate([
+        $request->validate([
             "password"  =>  "required|min:8|string|confirmed"
-            ],[
+        ],[
             "password.required" => "La contraseña es obligatoria.",
             "password.min" => "La contraseña debe tener al menos :min caracteres.",
             "password.string" => "La contraseña debe ser una cadena de caracteres."
-            ]);
+        ]);
 
-            $user = User::where('email',$email)->first();
-            if($user){
-                $user->password=Hash::make($request->password);
-                $user->save();
-            }
-            return back()->with('success','Contraseña cambiada correctamente');
+        $user = User::where('email',$email)->first();
+        if($user){
+            $user->password=Hash::make($request->password);
+            $user->save();
+        }
+        return back()->with('success','Contraseña cambiada correctamente');
     }
 
 
