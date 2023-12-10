@@ -18,11 +18,12 @@ class SecondController extends Controller
         $this->AIOKey = env('AIOKEY');
         $this->username = env('AUSER');
     }
+
     public function AllGroup(Request $request)
     {
         try {
 
-            $userid = 8; //Auth()->user()->id;
+            $userid = Auth()->user()->id;
             $groups = DB::table('plants')->select('name', 'groupkey')->where('user_id', $userid)->get();
 
             return response()->json([
@@ -89,25 +90,12 @@ class SecondController extends Controller
     {
         try {
             $name = $request->input('name');
-            
-            $client = new Client();
-            $response = $client->post('http://io.adafruit.com/api/v2/' . $this->username . '/groups', [
-                'headers' => [
-                    'X-AIO-Key' => $this->AIOKey,
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => [
-                    'name' => $name,
-                ],
-            ]);
-            $data = json_decode($response->getBody(), true);
-            $key = $data['key'];
 
-            $userid = 3; //Auth()->user()->id;
+            $userid = Auth()->user()->id;
             DB::table('plants')->insert([
                 'name' => $name,
                 'user_id' => $userid,
-                'groupkey' => $key,
+                'groupkey' => null,
             ]);
 
             $idplant = DB::table('plants')->where('name', $name)->value('id');
