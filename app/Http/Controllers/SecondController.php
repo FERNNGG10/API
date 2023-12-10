@@ -290,26 +290,26 @@ class SecondController extends Controller
     public function RequestData(Request $request){
 
         $array = DB::table('sensors')->get();
-
         foreach($array as $sensors)
         {
-            $response = [Http::withHeaders([
+            $response = Http::withHeaders([
                 'X-AIO-KEY' =>  $this->AIOKey
-            ])->get('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/'.$sensors->feedkey.'/data?limit=1')
-            ];
+            ])->get('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/'.$sensors->feedkey.'/data?limit=1');
+    
+            if($response->ok()){
+                $responses[] = [
+                    "msg"=>"Sensor data ok",
+                    "data"=>$response->json()
+                ];
+            }else{
+                $responses[] = [
+                    "msg"=>"Error en la peticion",
+                    "data"=>$response->body()
+                ];
+            }
         }
-
-        if($response->ok()){
-            return response()->json([
-                "msg"=>"Sensor data ok",
-                "data"=>$response->json()
-            ],200);
-        }else{
-            return response()->json([
-                "msg"=>"Error en la peticion",
-                "data"=>$response->body()
-            ],$response->status());
-        }
+    
+        return response()->json($responses);
        
     }
 
