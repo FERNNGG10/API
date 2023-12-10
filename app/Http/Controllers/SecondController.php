@@ -316,7 +316,7 @@ class SecondController extends Controller
         $userid = Auth()->user()->id;
         $plant=DB::table('plants')->where('user_id', $userid)->get();
         if($plant){
-            return response()->json(['msg'=>"Plantas",'data'=>$plant,'user_id'=>$userid],200);
+            return response()->json(['msg'=>"Plantas",'data'=>$plant],200);
         }
         return response()->json(['msg'=>"Plantas de usario no encontradas"],404);
     }
