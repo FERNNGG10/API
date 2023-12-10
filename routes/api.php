@@ -43,7 +43,7 @@ Route::group([
 
     Route::prefix('group')->group(function () {
    
-        Route::get('/all/group', [SecondController::class, 'AllGroup']);
+        Route::get('/all/group', [SecondController::class, 'RequestData']);
         Route::post('/one/group', [SecondController::class, 'GroupFeed']);
         Route::get('/last/data', [SecondController::class, 'LastData']);
         Route::post('/create/group', [SecondController::class, 'CreateGroup']);
