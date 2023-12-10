@@ -13,7 +13,7 @@
             <div class="col">
             </div>
             <div class="col border border-dark-subtle mt-5 bg-light">
-                <form class="" method="post" action="{{ route('resetpassword', ['email' => '$email']) }}">
+                <form class="" method="post" action="{{ route('resetpassword', ['email' => $email]) }}">
                    @csrf
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Contraseña</label>
