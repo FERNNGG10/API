@@ -20,11 +20,15 @@
 
                 <div id="emailHelp" class="form-text">Nunca compartiremos su contraseña con nadie más.</div>
 
-                <button type="submit" class="btn btn-success" value="Enviar">Submit</button>
-
+              
                 <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Confirmar Contraseña</label>
                         <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}">
+                </div>
+                <button type="submit" class="btn btn-success" value="Enviar">Submit</button>
+                @if(Session::has('error'))
+                    <div class="alert alert-danger text-center" role="alert">
+                        {{ Session::get('error') }}
                     </div>
                 @if(Session::has('success'))
                     <div class="alert alert-success text-center" role="alert">
