@@ -30,7 +30,7 @@
                     <div class="alert alert-danger text-center" role="alert">
                         {{ Session::get('error') }}
                     </div>
-                @if(Session::has('success'))
+                @elseif(Session::has('success'))
                     <div class="alert alert-success text-center" role="alert">
                         {{ Session::get('success') }}
                     </div>
