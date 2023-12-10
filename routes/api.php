@@ -39,7 +39,7 @@ Route::group([
     Route::post('forgetpassword',[AuthController::class,'forget_password']);
     Route::get('forget/{email}',[AuthController::class,'forget'])->name('forget')->middleware('signed');
     Route::post('resetpassword/{email}', [AuthController::class, 'resetpassword'])->name('resetpassword');
-    
+    Route::post('/all/senddata',[SecondController::class,'prueba']);
     Route::get('/all/feed',[SecondController::class,'RequestData']);
     Route::get('/all/group', [SecondController::class, 'RequestPlant']);
     Route::post('/one/group', [SecondController::class, 'GroupFeed']);
@@ -60,4 +60,4 @@ Route::get('/apitest', function () {
 
 
 
-Route::post('prueba',[SecondController::class,'prueba']);
+
