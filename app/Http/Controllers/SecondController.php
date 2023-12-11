@@ -214,7 +214,55 @@ class SecondController extends Controller
 
                     );
                 }
-                
+                if ($key == 'lluvia' && $data['value'] <= 30){
+                    $iduser = Auth()->user()->id;
+                    DB::table('alerts')->insert(
+                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+
+                    );
+                }
+                if ($key == 'suelo' && $data['value'] <= 30){
+                    $iduser = Auth()->user()->id;
+                    DB::table('alerts')->insert(
+                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+
+                    );
+                }
+                if ($key == 'temperatura' && $data['value'] <= 30){
+                    $iduser = Auth()->user()->id;
+                    DB::table('alerts')->insert(
+                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+
+                    );
+                }
+                if ($key == 'agua' && $data['value'] <= 30){
+                    $iduser = Auth()->user()->id;
+                    DB::table('alerts')->insert(
+                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+
+                    );
+                }
+                if ($key == 'bomba' && $data['value'] <= 30){
+                    $iduser = Auth()->user()->id;
+                    DB::table('alerts')->insert(
+                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+
+                    );
+                }
+                if ($key == 'luz' && $data['value'] <= 30){
+                    $iduser = Auth()->user()->id;
+                    DB::table('alerts')->insert(
+                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+
+                    );
+                }
+                if ($key == 'movimiento' && $data['value'] <= 30){
+                    $iduser = Auth()->user()->id;
+                    DB::table('alerts')->insert(
+                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+
+                    );
+                }
             }
 
             return response()->json([
