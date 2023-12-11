@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
-
+use Illuminate\Support\MessageBag;
 
 
 class AuthController extends Controller
@@ -253,7 +253,7 @@ class AuthController extends Controller
     
     //get
     public function forget($email){
-        return response()->view('mails.form', ['email' => $email]);
+        return response()->view('mails.form', ['email' => $email, 'errors' => new MessageBag()]);
     }
 
     //put
