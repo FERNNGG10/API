@@ -125,17 +125,9 @@ class SecondController extends Controller
     public function DeleteGroup(Request $request)
     {
         try {
-            $GroupKey = $request->input('GroupKey');
+            $name = $request->input('name');
             
-            $client = new Client();
-            $response = $client->delete('http://io.adafruit.com/api/v2/' . $this->username . '/groups/' . $GroupKey, [
-                'headers' => [
-                    'X-AIO-Key' => $this->AIOKey,
-                    'Content-Type' => 'application/json',
-                ],
-            ]);
-            
-            DB::table('plants')->where('groupkey', $GroupKey)->delete();
+            DB::table('plants')->where('name', $name)->delete();
     
             return response()->json([
                 'msg' => 'peticion satisfactoria',
