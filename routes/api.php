@@ -41,7 +41,7 @@ Route::group([
     Route::post('resetpassword/{email}', [AuthController::class, 'resetpassword'])->name('resetpassword');
     
     Route::post('/all/senddata',[SecondController::class,'prueba']);
-    Route::get('/all/feed',[SecondController::class,'RequestData']);
+    Route::get('/all/feed',[SecondController::class,'LastData']);//cambio
     Route::get('/all/group', [SecondController::class, 'RequestPlant']);
     Route::post('/one/group', [SecondController::class, 'GroupFeed']);
     Route::get('/last/data', [SecondController::class, 'LastData']);

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
-
+use Illuminate\Support\MessageBag;
 
 
 class AuthController extends Controller
@@ -98,6 +98,7 @@ class AuthController extends Controller
             ]
             );
             if($validate->fails()){
+             
                 return response()->json(["msg"=>"Error en datos","data"=>$validate->errors()],422);
             }
             //creacion de usuario
@@ -253,7 +254,7 @@ class AuthController extends Controller
     
     //get
     public function forget($email){
-        return response()->view('mails.form', ['email' => $email]);
+        return response()->view('mails.form', ['email' => $email, 'errors' => new MessageBag()]);
     }
 
     //put
@@ -265,13 +266,14 @@ class AuthController extends Controller
             "password.min" => "La contraseña debe tener al menos :min caracteres.",
             "password.string" => "La contraseña debe ser una cadena de caracteres."
         ]);
-
+    
         $user = User::where('email',$email)->first();
         if($user){
             $user->password=Hash::make($request->password);
             $user->save();
+            return redirect()->back()->with('success','Contraseña cambiada correctamente');
         }
-        return back()->with('success','Contraseña cambiada correctamente');
+        return redirect()->back()->withErrors(['error' => 'Usuario no encontrado']);
     }
 
 
