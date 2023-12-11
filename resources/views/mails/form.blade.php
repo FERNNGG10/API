@@ -12,19 +12,34 @@
     <div class="row align-items-start">
         <div class="col"></div>
         <div class="col border border-dark-subtle mt-5 bg-light">
-         
+        <script>
+            window.onload = function () {
+                document.getElementById('submit').onclick = function (e) {
+                    var password = document.getElementById('password').value;
+                    var confirmPassword = document.getElementById('confirmPassword').value;
+
+                    if (password != confirmPassword) {
+                        alert('Las contraseñas no coinciden.');
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    return true;
+                };
+            };
+        </script>
             <form class="" method="post" action="{{ route('resetpassword', ['email' => $email]) }}">
                 @csrf
                 <label for="exampleInputEmail1" class="form-label">Contraseña</label>
 
-                <input type="password" class="form-control " name="password" value="{{old('password')}}">
+                <input type="password" class="form-control " name="password" value="{{old('password')}}" minlength=8 required>
 
                
 
               
                 <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Confirmar Contraseña</label>
-                        <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}">
+                        <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}" minlength=8 required>
                 </div>
                 <div id="emailHelp" class="form-text">Nunca compartiremos su contraseña con nadie más.</div>
                 <button type="submit" class="btn btn-success" value="Enviar">Submit</button>
