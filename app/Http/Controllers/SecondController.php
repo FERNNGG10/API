@@ -206,6 +206,15 @@ class SecondController extends Controller
                     'feedkey' => $key,
                     'value' => $data['value'],
                 ];
+
+                if ($key == 'humedad' && $data['value'] <= 30){
+                    $iduser = Auth()->user()->id;
+                    DB::table('alerts')->insert(
+                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+
+                    );
+                }
+                
             }
 
             return response()->json([
