@@ -265,13 +265,14 @@ class AuthController extends Controller
             "password.min" => "La contraseña debe tener al menos :min caracteres.",
             "password.string" => "La contraseña debe ser una cadena de caracteres."
         ]);
-
+    
         $user = User::where('email',$email)->first();
         if($user){
             $user->password=Hash::make($request->password);
             $user->save();
+            return redirect()->back()->with('success','Contraseña cambiada correctamente');
         }
-        return back()->with('success','Contraseña cambiada correctamente');
+        return redirect()->back()->withErrors(['error' => 'Usuario no encontrado']);
     }
 
 

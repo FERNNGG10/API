@@ -12,9 +12,7 @@
     <div class="row align-items-start">
         <div class="col"></div>
         <div class="col border border-dark-subtle mt-5 bg-light">
-          @foreach($errors->all() as $error)
-              <p>{{$error}}</p>
-          @endforeach
+         
             <form class="" method="post" action="{{ route('resetpassword', ['email' => $email]) }}">
                 @csrf
                 <label for="exampleInputEmail1" class="form-label">Contraseña</label>
@@ -40,7 +38,11 @@
                 @endif
             </form>
         </div>
-        <div class="col"></div>
+        <div class="col">
+          @foreach($errors->all() as $error)
+              <p>{{$error}}</p>
+          @endforeach
+        </div>
     </div>
   </div>
 
