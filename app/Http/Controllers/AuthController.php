@@ -26,33 +26,15 @@ class AuthController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login()
     {
+        
         $credentials = request(['email', 'password']);
-        $validate = Validator::make(
-            $request->all(),[
-               
-                "email" =>  "required|email",
-                "password"  =>  "required|string"
-            ],  [
-               
-                "email.required" => "El correo electrónico es obligatorio.",
-                "email.email" => "Por favor, introduce un correo electrónico válido.",
-                "password.required" => "La contraseña es obligatoria.",
-                "password.string" => "La contraseña debe ser una cadena de caracteres.",
-            ]
-            );
-            if($validate->fails())
-            {
-                return response()->json(["msg"=>"Error en datos","data"=>$validate->errors()],422);
-            }
-            else{
-                if (! $token = auth()->attempt($credentials)) {
-                    return response()->json(['error' => 'Unauthorized'], 401);
-                }
-
-                return $this->respondWithToken($token);
-            }
+        
+        if (! $token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return $this->respondWithToken($token);
     }
 
     /**
