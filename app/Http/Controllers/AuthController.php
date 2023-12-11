@@ -99,7 +99,7 @@ class AuthController extends Controller
             );
             if($validate->fails()){
              
-                return response()->json(["msg"=>"Error en datos","data"=>$validate->errors()->toJson()],422);
+                return response()->json(["msg"=>"Error en datos","data"=>$validate->errors()],422);
             }
             //creacion de usuario
             $user = new User();
