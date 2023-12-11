@@ -32,14 +32,14 @@
                 @csrf
                 <label for="exampleInputEmail1" class="form-label">Contraseña</label>
 
-                <input type="password" class="form-control " name="password" value="{{old('password')}}" min="8" required>
+                <input type="password" class="form-control " name="password" value="{{old('password')}}" minlength=8 required>
 
                
 
               
                 <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Confirmar Contraseña</label>
-                        <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}" min="8" required>
+                        <input type="password" class="form-control" name="password_confirmation" value="{{old('password_confirmation')}}" minlength=8 required>
                 </div>
                 <div id="emailHelp" class="form-text">Nunca compartiremos su contraseña con nadie más.</div>
                 <button type="submit" class="btn btn-success" value="Enviar">Submit</button>
