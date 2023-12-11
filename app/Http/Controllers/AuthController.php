@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\MessageBag;
-
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -42,7 +42,8 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        $count=DB::table('plants')->where('user_id',auth()->user()->id)->count();
+        return response()->json([auth()->user(),$count],200);
     }
 
     /**
