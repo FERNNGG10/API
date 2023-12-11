@@ -43,7 +43,7 @@ class AuthController extends Controller
     public function me()
     {
         $count = DB::table('plants')->where('user_id', auth()->user()->id)->count();
-        $user [] = auth()->user();
+        $user = auth()->user()->toArray();
         $user['plants'] = $count;
         return response()->json($user, 200);
     }
