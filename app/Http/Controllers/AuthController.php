@@ -43,7 +43,7 @@ class AuthController extends Controller
     public function me()
     {
         $count=DB::table('plants')->where('user_id',auth()->user()->id)->count();
-        return response()->json([auth()->user(),$count],200);
+        return response()->json(["data"=>auth()->user() ,"plants"=>$count],200);
     }
 
     /**
