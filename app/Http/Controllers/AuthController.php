@@ -214,18 +214,17 @@ class AuthController extends Controller
                 "msg"   =>"Error en la validacion de datos",
                 "data"  =>$validate->errors()
             ],422);
+        }else{
+            $user = User::find($user_id);
+            if($user){
+                $user->password=Hash::make($request->password);
+                $user->save();
+                return response()->json(["msg"=>"Contraseña cambiada correctamente","data"=>$user],200);
+            }
+            return response()->json([
+                "msg"   =>"Usuario no encotrado"
+            ],404);
         }
-        
-        $user = User::find($user_id);
-        if($user){
-            $user->password=Hash::make($request->password);
-            $user->save();
-            return response()->json(["msg"=>"Contraseña cambiada correctamente","data"=>$user],200);
-        }
-        return response()->json([
-            "msg"   =>"Usuario no encotrado"
-        ],404);
-        
     }
     //post
     public function forget_password(Request $request){
