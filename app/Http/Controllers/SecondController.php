@@ -283,12 +283,25 @@ class SecondController extends Controller
         $response = Http::withHeaders([
             'X-AIO-KEY'=>$this->AIOKey
         ])->post('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/bomba/data?limit=1',["value"=>"1"]);
-
+    
         if($response->ok()){
-            return response()->json([
-                "msg"=>"La planta se esta regando",
-                "data"=>$response->json()
-            ],200);
+            sleep(5);
+    
+            $response = Http::withHeaders([
+                'X-AIO-KEY'=>$this->AIOKey
+            ])->post('http://io.adafruit.com/api/v2/'.$this->username.'/feeds/bomba/data?limit=1',["value"=>"0"]);
+    
+            if($response->ok()){
+                return response()->json([
+                    "msg"=>"La planta se ha regado y la bomba se ha apagado",
+                    "data"=>$response->json()
+                ],200);
+            }else{
+                return response()->json([
+                    "msg"=>"Error al apagar la bomba",
+                    "data"=>$response->body()
+                ],$response->status());
+            }
         }else{
             return response()->json([
                 "msg"=>"Error en la peticion",
