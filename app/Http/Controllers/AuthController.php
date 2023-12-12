@@ -205,7 +205,7 @@ class AuthController extends Controller
                 "password.required" => "La contraseña es obligatoria.",
                 "password.min" => "La contraseña debe tener al menos :min caracteres.",
                 "password.string" => "La contraseña debe ser una cadena de caracteres.",
-                'password.required' => 'La contraseña es obligatoria.'
+                
                 ]
             );
 
