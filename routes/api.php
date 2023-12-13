@@ -39,7 +39,7 @@ Route::group([
     Route::post('forgetpassword',[AuthController::class,'forget_password']);
     Route::get('forget/{email}',[AuthController::class,'forget'])->name('forget')->middleware('signed');
     Route::post('resetpassword/{email}', [AuthController::class, 'resetpassword'])->name('resetpassword');
-    
+    Route::get('last/alert',[SecondController::class,'alerts']);
     Route::post('/all/senddata',[SecondController::class,'prueba']);
     Route::get('/all/feed',[SecondController::class,'LastData']);//cambio
     Route::get('/all/group', [SecondController::class, 'RequestPlant']);
