@@ -209,59 +209,53 @@ class SecondController extends Controller
                     'value' => $data['value'],
                 ];
 
-                if ($key == 'humedad' && $data['value'] <= 30){
+                if ($key == 'humedad' && $data['value'] >= 60){
                     $iduser = Auth()->user()->id;
                     DB::table('alerts')->insert(
-                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+                        ['user_id' => $iduser, 'message' => 'La humedad es mayor a 60%'],
 
                     );
                 }
-                if ($key == 'lluvia' && $data['value'] <= 30){
+                if ($key == 'lluvia' && $data['value'] == 1){
                     $iduser = Auth()->user()->id;
                     DB::table('alerts')->insert(
-                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+                        ['user_id' => $iduser, 'message' => 'Esta lloviendo'],
 
                     );
                 }
-                if ($key == 'suelo' && $data['value'] <= 30){
+                if ($key == 'suelo' && $data['value'] <= 50){
                     $iduser = Auth()->user()->id;
                     DB::table('alerts')->insert(
-                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+                        ['user_id' => $iduser, 'message' => 'La humedad de la planta es menor a 50%'],
 
                     );
                 }
-                if ($key == 'temperatura' && $data['value'] <= 30){
+                if ($key == 'temperatura' && $data['value'] >= 30){
                     $iduser = Auth()->user()->id;
                     DB::table('alerts')->insert(
-                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+                        ['user_id' => $iduser, 'message' => 'La temperatura es mayor a 30°'],
 
                     );
                 }
-                if ($key == 'agua' && $data['value'] <= 30){
+                if ($key == 'agua' && $data['value'] <=20){
                     $iduser = Auth()->user()->id;
                     DB::table('alerts')->insert(
-                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+                        ['user_id' => $iduser, 'message' => 'Se esta acabando el agua'],
 
                     );
                 }
-                if ($key == 'bomba' && $data['value'] <= 30){
+                
+                if ($key == 'luz' && $data['value'] < 20){
                     $iduser = Auth()->user()->id;
                     DB::table('alerts')->insert(
-                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+                        ['user_id' => $iduser, 'message' => 'Hay demasiada luz'],
 
                     );
                 }
-                if ($key == 'luz' && $data['value'] <= 30){
+                if ($key == 'movimiento' && $data['value'] == 1){
                     $iduser = Auth()->user()->id;
                     DB::table('alerts')->insert(
-                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
-
-                    );
-                }
-                if ($key == 'movimiento' && $data['value'] <= 30){
-                    $iduser = Auth()->user()->id;
-                    DB::table('alerts')->insert(
-                        ['user_id' => $iduser, 'message' => 'Mensaje culon'],
+                        ['user_id' => $iduser, 'message' => 'Hay movimiento cerca de tu planta!'],
 
                     );
                 }
