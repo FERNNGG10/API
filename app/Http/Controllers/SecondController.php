@@ -8,6 +8,8 @@ use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use App\Models\Plant;
+use Illuminate\Support\Facades\Auth;
+
 class SecondController extends Controller
 {
     private $AIOKey;
@@ -347,6 +349,12 @@ class SecondController extends Controller
             return response()->json(['msg'=>"Plantas",'data'=>$plant],200);
         }
         return response()->json(['msg'=>"Plantas de usario no encontradas"],404);
+    }
+
+    public function alerts(){
+        $userid = Auth()->user()->id;
+        $alert = DB::table('alerts')->where('user_id',$userid)->latest()->first();
+        return response()->json(['msg'=>'alert','data'=>$alert]);
     }
 
 
