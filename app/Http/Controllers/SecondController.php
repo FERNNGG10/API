@@ -353,8 +353,12 @@ class SecondController extends Controller
 
     public function alerts(){
         $userid = Auth()->user()->id;
-        $alert = DB::table('alerts')->where('user_id',$userid)->latest()->first();
-        return response()->json(['msg'=>'alert','data'=>$alert]);
+        $alert = DB::table('alerts')->where('user_id',$userid)->orderBy('id', 'desc')->first();
+    
+        if($alert){
+            return response()->json(['msg'=>"Alerta",'data'=>$alert],200);
+        }
+        return response()->json(['msg'=>"Alerta de usuario no encontrada"],404);
     }
 
 
