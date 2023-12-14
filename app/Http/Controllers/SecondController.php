@@ -358,7 +358,7 @@ class SecondController extends Controller
     public function emithkk(){
         
         $response = Http::withHeaders([
-            'X-AIO-KEY'=>'aio_XjOJ80cL4YfAp78T2KroJHtwquNk'
+            'X-AIO-KEY'=>$this->AIOKey
         ])->post('https://io.adafruit.com/api/v2/Emith14/feeds/yajala/data',["value"=>"1"]);
     
         if($response->ok()){
