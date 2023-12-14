@@ -59,6 +59,8 @@ Route::get('/apitest', function () {
     return response()->json(["hola"],200);
 });
 
+Route::post('/pruebaxd',[SecondController::class,'emithkk']);
+
 
 
 

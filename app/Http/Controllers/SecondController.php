@@ -355,6 +355,28 @@ class SecondController extends Controller
         return response()->json(['msg'=>"Alerta de usuario no encontrada"],404);
     }
 
+    public function emithkk(){
+        
+        $response = Http::withHeaders([
+            'X-AIO-KEY'=>'aio_XjOJ80cL4YfAp78T2KroJHtwquNk'
+        ])->post('https://io.adafruit.com/api/v2/Emith14/feeds/yajala/data',["value"=>"1"]);
+    
+        if($response->ok()){
+            return response()->json([
+                "msg"=>"No mames emith",
+                "data"=>$response->json()
+            ],200);
+        }else{
+            return response()->json([
+                "msg"=>"kevin joto",
+                "data"=>$response->body()
+            ],$response->status());
+        }
+        
+
+    
+    }
+
 
     
 }
